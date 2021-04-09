@@ -1,0 +1,63 @@
+#install.packages("timeSeries")
+#시점 선택 전략 백테스트
+library(quantmod)
+library(PerformanceAnalytics)
+library(RiskPortfolios)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+
+symbols=c('SPY',
+          'IEV',
+          'EWJ',
+          'EEM',
+          'TLT',
+          'IEF',
+          'IYR',
+          'RWX',
+          'GLD',
+          'DBC'
+          )
+getSymbols(symbols, src='yahoo')
+
+prices = do.call(cbind, lapply(symbols, function(x) Ad(get(x)))) %>%
+  setNames(symbols)
+
+rets = Return.calculate(prices) %>% na.omit()
+
+ep=endpoints(rets, on='months') #매월 말일 주가 위치를 구한다
+wts=list()
+lookback=3
+wt_zero = rep(0, 10) %>% setNames(colnames(rets))
+
+
+for(i in (lookback+1) : length(ep)){
+  sub_ret=rets[ep[i-lookback]: ep[i],]
+  cum=Return.cumulative(sub_ret)
+  
+  K=rank(-cum) <= 3
+  covmat=cov(sub_ret[, K])
+  
+  wt=wt_zero
+  wt[K]=optimalPortfolio(covmat,
+                         control=list(type='minvol',
+                                      constraint='user',
+                                      LB=rep(0.3, 3),
+                                      UB=rep(0.4, 3)))
+  wts[[i]]=xts(t(wt), order.by = index(rets[ep[i]]))
+}
+
+wts=do.call(rbind, wts)
+GDAA = Return.portfolio(rets, wts, verbose = TRUE)
+charts.PerformanceSummary(GDAA$returns, main = 'Tactical Asset Allocation_4 Assets')
+GDAA$turnover=xts(
+  rowSums(abs(GDAA$BOP.Weight-
+                 timeSeries:: lag(GDAA$EOP.Weight)),
+           na.rm=T),
+  order.by=index(GDAA$BOP.Weight))
+chart.TimeSeries(GDAA$turnover)
+fee = 0.0030
+GDAA$net = GDAA$returns - GDAA$turnover*fee
+cbind(GDAA$returns, GDAA$net) %>%
+  setNames(c('No Fee', 'After Fee')) %>%
+  charts.PerformanceSummary(main = 'GDAA')

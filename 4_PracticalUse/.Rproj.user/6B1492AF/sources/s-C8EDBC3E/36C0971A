@@ -1,0 +1,28 @@
+{
+    "id": "36C0971A",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1617013804676.0,
+    "source_on_save": false,
+    "relative_order": 15,
+    "properties": {
+        "id": "5a914649dd7e4c94b2a763061ed2843b",
+        "name": "rawmoney",
+        "title": "rawmoney",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 46,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1617013804676,
+    "read_only": false,
+    "read_only_alternatives": []
+}

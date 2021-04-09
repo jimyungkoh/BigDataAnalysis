@@ -1,0 +1,6 @@
+file.edit("~/.Renviron")
+
+dart_api_key='72dd3f4339929439358363ba3ec96483e1e93016'
+
+dart_api=Sys.getenv("dart_api_key")
+

@@ -1,0 +1,34 @@
+#install.packages("magrittr")
+library(quantmod)
+library(PerformanceAnalytics)
+library(magrittr)
+
+symbols=c('QLD', 'TLT')
+getSymbols(symbols, src='yahoo')
+
+prices= do.call(cbind,
+                lapply(symbols, function(x) Ad(get(x))))
+rets=na.omit(Return.calculate(prices))
+
+ep=endpoints(rets, on='months') #매월 말일 주가 위치를 구한다
+wts=list()
+lookback=4
+
+for(i in (lookback+1) : length(ep)){
+  sub_price=prices[ep[i-lookback]:ep[i], 1]
+  sma=mean(sub_price)
+  wt=rep(0,2)
+  wt[1]=ifelse(last(sub_price)>sma, 1, 0)
+  wt[2]=1-wt[1]
+  
+  wts[[i]]=xts(t(wt), order.by = index(rets[ep[i]]))
+}
+
+wts=do.call(rbind, wts)
+
+Tactical=Return.portfolio(rets, wts, verbose=TRUE)
+portfolios=na.omit(cbind(rets[,1], Tactical$returns)) %>%
+  setNames(c('buy and hold', 'Timing Strategy'))
+
+charts.PerformanceSummary(portfolios,
+                          main="Buy&Hold vs Tactical")
