@@ -90,3 +90,32 @@ mean(data3); sd(data3)
 t.test(data1)
 t.test(data2)
 t.test(data3)
+
+
+#############################################
+#다중 선형 회귀
+#1. mtcars 데이터 (실린더 수와 차체 무게가 마력에 미치는 영향)
+mtcars_model <- lm(hp ~ cyl + wt, data = mtcars)
+mtcars_model
+summary(mtcars_model)
+
+#2. airquality 데이터(최고 온도에 영향을 미치는 변수, 오존량, 태양 방사선량, 풍속)
+air <- airquality
+head(air)
+air_model <- lm(Temp ~ Ozone + Solar.R + Wind, data = air)
+air_model
+summary(air_model)
+
+#변수 선택법
+##step; both: 최상 부분집합; backward(후진); forward(전진)
+mtcars_model <- lm(mpg ~ ., data = mtcars)
+slm <- step(mtcars_model, direction = 'both')
+slm
+
+
+bestBIC <- summary(slm)$bic; bestBIC
+
+##가장 낮은 모델 시각화
+min.val <- which.min(bestBIC)
+plot(bestBIC, type = "b")
+points(min.val, bestBIC[min.val], col='red', pch=20) ##시험범위에요. 인덱스 알아두셔야 합니다.
