@@ -30,3 +30,4 @@ newx
 
 ###예측, predict()
 predict(m, newdata = newx)
+
