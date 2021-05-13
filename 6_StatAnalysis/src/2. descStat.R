@@ -1,5 +1,5 @@
 #1 기술 통계
-df <- read.csv("data/example_studentlist.csv")
+df <- read.csv("6_StatAnalysis/data/example_studentlist.csv")
 df
 
 attach(df)
@@ -25,7 +25,7 @@ summary(height)
 ## 분산
 var(height)
 
-## 표준편차
+## 표준편차(Standard Deviation)
 sd(height)
 
 ## 표준화
@@ -94,7 +94,7 @@ cor(eco$unemploy, eco$pce)
 car_cor <- cor(mtcars)
 round(car_cor, 2)
 
-## 히트맵
+## 히트맵(상관행렬 그리기)
 ###install.packages("corrplot")
 library(corrplot)
 

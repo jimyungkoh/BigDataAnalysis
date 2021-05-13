@@ -3,7 +3,7 @@
 data <- c(10,NA, 30, NA, 45)
 data
 data[data < 40]
-data[data %% 3 !=0]
+data[data %% 3 !=0] ###data 내 요소를 3으로 나눴을 때 0이 아닌 것
 
 df <- data.frame(name=c("John", "Amy", "Steve"),
                  age=c(200, 16, 23),
@@ -13,7 +13,7 @@ df
 
 df[df$gender=="N",]
 
-df[df$age>120| df$age<0,]
+df[df$age>120| df$age<0,] #"|"는 or 연산자
 
 ##if문 활용
 x <- 5
@@ -37,8 +37,8 @@ city <- "Seoul"
 ifelse(city=="Seoul", "Korea", "Other Country")
 
 ##조건문을 이용한 데이터 정제의 예
-students <- read.csv("data/students.csv", header = TRUE,
-                     fileEncoding = "CP949", encoding = "UTF-8")
+students <- read.csv("3_PreProcessing/data/students.csv", header = TRUE)
+                     #, fileEncoding = "CP949", encoding = "UTF-8")
 students
 
 students[, 2] <- ifelse(students[, 2]>=0 & students[, 2] <=100,
@@ -94,7 +94,7 @@ sumAtoB(start=10, end=15)
 
 #결측값 처리
 str(airquality)
-?airquality
+##?airquality
 air <- airquality
 
 ##결측치 확인
@@ -136,6 +136,8 @@ table(outlier$score)
 ##특이값 처리: NA 부여
 outlier$gender <- ifelse(outlier$gender==3, NA, outlier$gender)
 outlier$score <- ifelse(outlier$score>5, NA, outlier$score)
+table(outlier$gender)
+table(outlier$score)
 
 ##극단치 확인: boxplot()
 air <- airquality
