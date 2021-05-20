@@ -4,7 +4,7 @@ library(stringr)
 library(psych)
 
 #csv 파일을 불러옵니다!
-csv_data <- read.csv('/Users/jimyungkoh/Desktop/R_project/4_PracticalUse/src/NationalRecreationalForestStandardData.csv'
+csv_data <- read.csv('4_PracticalUse/src/NationalRecreationalForestStandardData.csv'
                      , fileEncoding = "euc-kr", stringsAsFactors = FALSE, na.strings = NA)
 
 #'forest' 데이터 프레임을 만듭니다!

@@ -12,7 +12,7 @@ for( i in 1:10^6){
     mean_s <- mean(s)
     samples[i] <- mean_s
 }
-heead(samples)
+head(samples)
 
 ## 히스토그램으로 분포 확인
 hist(samples, breaks=1000)
@@ -27,7 +27,8 @@ mean_x <- mean(x); mean_x
 ## 표준편차
 sd_x <- sd(x); sd_x
 
-## 표준오차
+## 표준오차(표본평균의 표준편차)
+## sqrt: 제곱근
 se_x <- sd_x / sqrt(50); se_x
 
 ## 유의 수준 alpha, 신뢰 수준

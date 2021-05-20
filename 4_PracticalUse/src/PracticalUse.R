@@ -3,6 +3,7 @@
 #nstall.packages("ggplot2")
 library(ggplot2)
 library(dplyr)
+?mpg ##ggplot2의 샘플 데이터
 str(mpg)
 data <- as.data.frame(mpg)
 head(data)
@@ -10,11 +11,26 @@ head(data)
 mpg
 ## 실습 1. audi의 자동차 모델 중 고속도로 연비(hwy)가 가장 높은 5개의 자동차 데이터 출력
 mpg %>%
-  group_by(manufacturer) %>%
-  arrange(desc(hwy)) %>%
-  head(5)
+    filter(manufacturer=="audi") %>% 
+    arrange(desc(hwy)) %>%
+    head(5)
+
+mpg %>%
+    filter(manufacturer=="audi") %>%
+    arrange(desc(hwy))%>%
+    head(5)
+
+#mpg %>%group_by(manufacturer) %>%arrange(desc(hwy)) %>% head(5)
 
 ## 실습 2. 고속도로 연비(hwy)와 도시 연비(cty)를 통합한 평균 연비 변수를 추가하고 평균 연비가 가장 높은 자동차 3종 출력 
+
+mpg %>%
+    mutate(total = (hwy + cty)/2) %>%
+    arrange(desc(total)) %>%
+    head(3)
+
+
+
 mpg %>%
   mutate(total=(hwy+cty)/2) %>%
   arrange(desc(total))%>%
@@ -25,6 +41,10 @@ mpg %>%
   group_by(manufacturer, drv) %>%
   summarise(mean_cty=mean(cty))
 
+
+mpg %>%
+    group_by(manufacturer, drv) %>%
+    summarise(mean_cty=mean(cty))
 ## 실습 4. 제조사별 'suv' 자동차의 평균 연비가 가장 높은 자동차 5개 출력
 mpg %>%
   filter(class=="suv") %>%
@@ -64,6 +84,7 @@ mpg %>% select(model, fl, price_fl) %>% head(5)
 midwest <- as.data.frame(ggplot2::midwest)
 
 ## 실습 8. '전체 인구 대비 미성년 인구 비율' 변수를 추가하고, 미성년 인구 비율이 가장 높은 상위 5개 지역을 출력
+
 midwest <- midwest %>%
             mutate(notadult=((poptotal-popadults)/poptotal)*100)
 
