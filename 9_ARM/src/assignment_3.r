@@ -3,7 +3,8 @@
 ####################################################
 
 #패키지 설치: arules(연관규칙분석 패키지)
-library(arules)
+#install.packages("arules")
+library(arules) #arules는 association rules(연관 규칙)의 줄임말 
 
 #데이터셋을 확인합니다.
 str(Titanic)
@@ -13,6 +14,7 @@ df <- as.data.frame(Titanic)
 
 # 알고리즘에 적용할 수 있도록 데이터를 변경합니다.
 titanic.raw <- NULL
+
 for(i in 1:4){
     titanic.raw <- cbind(titanic.raw, rep(as.character(df[, i]), df$Freq))
 }

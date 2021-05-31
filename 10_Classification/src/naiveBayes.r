@@ -7,7 +7,7 @@
 library(e1071)
 
 #데이터 셋: UCI 대학에서 제공하는 독버섯 관련 데이터
-mushroom <- read.csv("10_Classification/data/mushrooms.csv")
+mushroom <- read.csv("data/mushrooms.csv")
 str(mushroom)
 
 #데이터 나누기

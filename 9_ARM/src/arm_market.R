@@ -2,12 +2,14 @@
 #install.packages("arules")
 library(arules)
 
-#트랜젝션 데이터 불러오기 : read.transactions()
-market <- read.transactions(file = "9_ARM/data/groceries.csv", format = "basket", sep = ",")
-
+#트랜젝션 데이터 불러오기
+##read.transactions()
+##      Reads a transaction data file from disk and creates a transactions object.
+market <- read.transactions(file = "data/groceries.csv", format = "basket", sep = ",")
+##read.transactions(file = "9_ARM/data/groceries.csv", format = "basket", sep = ",")
 summary(market)
 
-#트랜젝션 데이터 내용 확인: inspect()
+#트랜젝션 데이터 내용 확인: inspect(), 검사하다.
 inspect(market[1:10])
 
 #항목이 트랜젝션에서 나타나는 비율(support) : itemFrequency()
@@ -17,6 +19,7 @@ itemFrequency(market[,1:10])
 itemFrequencyPlot(market, topN=5, main="support top-5 items")
 
 #apriori 알고리즘으로 연관 규칙 생성
+##apriori(): 빈발 항목집합, 연관규칙, 연관 하이퍼그래프를 apriori algorithm으로 마이닝
 rules.all <- apriori(market)
 
 #규칙 확인
@@ -37,12 +40,13 @@ inspect(rules.sorted)
 
 #규칙 다듬기 2
 ##지지도와 신뢰도를 조정해서 규칙을 생성, lift를 중심으로 규칙 정렬
-##지지도 0.3, 신뢰도 0.9 함수 처리 과정이 출력되지 않도록 control 추가
+##지지도 0.3, 신뢰도 0.9 함수 처리 과정이 출력되지 않도록(verbose=F) control 추가
 rules <- apriori(market, control = list(verbose = F),
         parameter = list(minlen=2, support=0.2, confidence=0.8))
 rules
 
 ##숫자 다듬기. confidence, lift 소수점 이하 2자리 표시
+###The quality() computes several quality criteria for the result of a SOM algorithm.
 quality(rules) <- round(quality(rules), digits=2)
 
 ##규칙 결과 정렬
@@ -64,7 +68,7 @@ rule_df <- as(rules, "data.frame")
 rule_df
 
 write.csv(rule_df,
-        file = "9_ARM/data/market_rules.csv",
+        file = "data/market_rules.csv",
         quote = TRUE,
         row.names=FALSE)
         
