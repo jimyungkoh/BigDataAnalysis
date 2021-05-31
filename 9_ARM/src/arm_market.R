@@ -1,5 +1,5 @@
 #패키지 설치: arules
-#install.packages("arules")
+#install.packages("arules"; arules는 연관규칙 패키지임)
 library(arules)
 
 #트랜젝션 데이터 불러오기
@@ -12,6 +12,7 @@ summary(market)
 #트랜젝션 데이터 내용 확인: inspect(), 검사하다.
 inspect(market[1:10])
 
+?itemFrequencyPlot
 #항목이 트랜젝션에서 나타나는 비율(support) : itemFrequency()
 itemFrequency(market[,1:10])
 
@@ -51,7 +52,7 @@ quality(rules) <- round(quality(rules), digits=2)
 
 ##규칙 결과 정렬
 inspect(sort(rules, by="lift"))
-
+?apriori
 #규칙 다듬기 3: shopping bags는 다른 항목과 독립적이므로 연관 규칙에서 제외
 rules <- apriori(market, control = list(verbose = F),
         parameter = list(minlen=2, support=0.2, confidence=0.8),
