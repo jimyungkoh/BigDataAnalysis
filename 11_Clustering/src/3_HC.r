@@ -38,7 +38,7 @@ head(mydia)
 
 ## 계층형 군집화
 result <- hclust(dist(mydia), method="average")
-plot(result, hang=-1)
+plot(result, hang=-1) ### hang = -1 ->  line from the bottom
 
 ##3개 군집화
 result2 <- kmeans(mydia, 3)

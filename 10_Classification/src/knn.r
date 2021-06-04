@@ -16,6 +16,7 @@ str(fgl) #RI: 굴절율
 n <- nrow(fgl); n
 tr_idx <- sample(1:n, 200); tr_idx
 
+?fgl
 # 모델 생성할 변수, RI, Al 추출
 # 훈련집합, 타겟 클래스, 테스트 집합 생성
 train <- fgl[tr_idx, c('RI', 'Al')]; train
@@ -23,6 +24,7 @@ test <- fgl[-tr_idx, c('RI', "Al")]; test
 train_class <- fgl[tr_idx, "type"]; train_class
 test_class <- fgl[-tr_idx, "type"]; test_class
 
+??knn()
 # knn 모델 생성: 훈련집합, 타겟 클래스, 테스트 집합, 이웃 수
 nn1 <- knn(train=train, cl=train_class, test=test, k=1)
 nn5 <- knn(train=train, cl=train_class, test=test, k=5)

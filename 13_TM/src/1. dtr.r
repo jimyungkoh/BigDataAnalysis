@@ -2,10 +2,16 @@
 #install.packages("RCurl") #웹 서버 접속
 #install.packages("XML") #웹 문서 처리 패키지
 library(RCurl)
-library(XML)
+##Provides functions to allow one to compose general HTTP requests
+##  and provides convenient functions to fetch URIs, get & post
+##  forms, etc. and process the results returned by the Web server
 
+library(XML)
+##This collection of functions allow us to add, remove and replace children
+##  from an XML node and also to and and remove attributes on an XML node
 #문서 가져오기 -> 위키피디아 "data science"
 t <- readLines("https://en.wikipedia.org/wiki/Data_science")
+##readLines(): Read some or all text lines from a connection.
 head(t)
 str(t)
 ## 웹 문서를 R의 데이터형으로 변환 : htmlParse, xpathSApply
@@ -19,8 +25,8 @@ head(clean_doc)
 library(tm)
 library(SnowballC)
 
-#tm::VectorSource(x) -> 벡터 x의 각 element를 document로 변환
-#tm::Corpus -> 문서 집합인 코퍼스 생성
+#tm::VectorSource(x) -> 벡터 x의 각 element를 document로 변환 (Create a vertor source)
+#tm::Corpus -> 문서 집합인 코퍼스 생성 (Representing and computing on corpora)
 doc <- Corpus(VectorSource(clean_doc))
 head(doc)
 inspect(doc)
@@ -33,6 +39,7 @@ doc <- tm_map(doc,removePunctuation)
 doc <- tm_map(doc,stripWhitespace)
 
 #DTM 구축: DocumentTermMatrix
+#   (Constructs or coerces to a term-document matrix or a document-term matrix)
 dtm <- DocumentTermMatrix(doc)
 dim(dtm)
 inspect(dtm)
@@ -44,4 +51,4 @@ findFreqTerms(dtm, lowfreq = 7)
 findAssocs(dtm, terms="methods", corlimit = 0.6)
 
 #빈도 막대로 시각화하기
-##barplot(d[1:10, ]$freq, col="lightblue")
+#barplot(d[1:10, ]$freq, col="lightblue")

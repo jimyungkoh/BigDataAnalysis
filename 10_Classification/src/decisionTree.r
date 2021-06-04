@@ -11,7 +11,6 @@ str(airquality)
 
 #분류 모델 생성 :ctree
 ##분류 모델: 태양열, 바람, 오존량으로 온도 예측
-?ctree
 formula <- Temp ~ Solar.R + Wind + Ozone
 air_ctree <- ctree(formula, data = airquality)
 air_ctree

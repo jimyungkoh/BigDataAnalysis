@@ -11,7 +11,7 @@ v <- sort(colSums(m), decreasing = T) #컬럼 단위(모든 문서)로 빈도수
 v
 d <- data.frame(word=names(v), freq=v) #matrix to data frame
 head(d)
-
+?wordcloud
 #create wordcloud
 wordcloud(words=d$word,
     freq=d$freq,

@@ -4,12 +4,13 @@
 
 #패키지 설치 및 로드
 #install.packages("e1071")
+??e1071
 library(e1071)
 
 #데이터 셋: UCI 대학에서 제공하는 독버섯 관련 데이터
 mushroom <- read.csv("data/mushrooms.csv")
 str(mushroom)
-
+?naiveBayes
 #데이터 나누기
 # 훈련 집합(6500개)., 테스트 집합(-개)
 n <- nrow(mushroom);  

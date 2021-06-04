@@ -1,0 +1,28 @@
+데이터를 불러오고 구조를 살피고 평균, 분산을 구하고 그래프를 그리시오.
+
+```{r}
+df <- read.csv("example_studentlist.csv")
+str(df)
+Mean <- mean(df$height)
+sd <- sd(df$weight)
+plot(weight~height, data=df)
+```
+
+혈액형과 성별, 휴학여부의 빈도수를 구하시오.
+
+```{r, echo=F}
+a <- table(df$bloodtype)
+b <- table(df$gender)
+c <- table(df$absence)
+a
+b
+c
+```
+interactive graph
+```{r}
+library(plotly)
+library(ggplot2)
+p <- ggplot(data=mpg, aes(x=displ, y=hwy, col=drv)) + geom_point()
+ggplotly(p)
+```
+

@@ -6,6 +6,7 @@ library(tm)
 library(wordcloud2)
 library(stringr)
 #1. 공동구매 요청 테이블을 분석해서 가장 인기 있는 아이템 찾기 (order.txt)
+?readLines()
 order <- readLines("13_TM/data/order.txt", encoding = "UTF-8")
 nouns <- extractNoun(order) #명사 추출
 c <- unlist(nouns) # 명사 list를 문자열 벡터로 변환
@@ -44,7 +45,7 @@ wordcloud2(v[1:100])
 head(v, 10)
 
 #3. 서울시 홈페이지에서 시민참여 게시판 분석하기 (seoul.txt)
-seoul <- readLines("13_TM/data/seoul.txt", encoding = "UTF-8")
+seoul <- readLines("data/seoul.txt", encoding = "UTF-8")
 nouns <- extractNoun(seoul) #명사 추출
 c <- unlist(nouns) # 명사 list를 문자열 벡터로 변환
 wd <- Filter(function(x) {nchar(x) >= 2}, c)  #2글자 이상 단어만 추출하는 함수
@@ -55,7 +56,7 @@ wd <- Filter(function(x) {nchar(x) >= 2}, wd)
 wd_cnt <- table(wd) #단어 빈도수
 v <- sort(wd_cnt, decreasing = T)
 letterCloud(v, word="SEOUL", size=5)
-wordcloud2(v[1:100], size=1)
+wordcloud2(v[1:100], size=1, shape= "cardioid")
 head(v,10)
 
 #4. 뉴스에서 관심 키워드의 기사를 검색하여 주제어 분석하기
