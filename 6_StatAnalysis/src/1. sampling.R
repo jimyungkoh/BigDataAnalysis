@@ -8,7 +8,6 @@ sample(dt, 10)
 
 #1-2 복원 추출 replace에 'T' 값을 주면 복원 추출이 됌
 sample(dt, 10, replace = T)
-
 sample(1:5, 5)
 sample(1:5, 5, replace = T)
 

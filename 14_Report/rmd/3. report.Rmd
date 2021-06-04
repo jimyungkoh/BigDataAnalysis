@@ -1,0 +1,50 @@
+문자 앞뒤에 *특수 문자*를 넣으면 기울임체가 됩니다.
+
+문자 앞뒤에 **특수 문자**를 넣으면 강조체가 됩니다.
+
+문자 앞뒤에 ~~특수 문자~~를 넣으면 취소선을 만듭니다.
+
+http로 시작하는 [URL](https://rmarkdown.rstudio.com/index.html) 을 넣으면 하이퍼링크를 만듭니다.
+
+# 1 단계 제목
+
+## 2 단계 제목
+
+### 3 단계 제목
+
+#### 4 단계 제목
+
+가로줄은 asterisk(*) 또는 dash(-)를 3 개 이상 넣습니다.
+
+******
+
+------
+
+## 인라인코드
+There were `r nrow(cars)` cars studied.
+
+## 수식
+This summation expression $\sum_{i=1}^n X_i$ appears inline.
+
+## 차트 
+```{r, fig.cap="[Fig.1] scatterplot:cars", fig.width=8, fig.height=6}
+plot(cars)
+```
+
+## 그림 넣기
+```{r, fig.cap="Fig.2] knitr logo", fig.align="center"}
+library(knitr)
+include_graphics("https://d33wubrfki0l68.cloudfront.net/eb48bae40b24285c0c8f281e6d2a7500cf3b9fc8/a2e5f/knitr/images/knit-logo.png")
+```
+```{r, fig.cap="[Fig.3] R logo", fig.align="center", out.width="28%"}
+
+include_graphics("R_logo.png")
+```
+
+청크없이 바로 그림 삽입
+![[Fig.4] Rstudio logo](Rstudio_logo.png){width=20%}
+
+## 테이블 kable
+```{r}
+kable(iris[1:5, ], caption = "[Table 1] iris data")
+```
