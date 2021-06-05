@@ -31,6 +31,7 @@ nrow(train); nrow(test)
 
 #분류 모델 생성
 formula <- Species  ~ Sepal.Length + Sepal.Width + Sepal.Length + Sepal.Width
+formula
 iris_ctree <- ctree(formula, data = train)
 
 #모델 시각화
@@ -59,15 +60,19 @@ str(fgl) #RI: 굴절율
 n <- nrow(fgl); n
 tr_idx <- sample(1:n, 200); tr_idx
 
-?fgl
 #모델 생성할 변수, RI, Al 추출
 #훈련집합, 타겟 클래스, 테스트 집합 생성
-train <- fgl[tr_idx, c("RI", "Al")]; train
-test <- fgl[-tr_idx, c("RI", "Al")]; test
+train <- fgl[tr_idx, c("RI", "Al")]; head(train)
+test <- fgl[-tr_idx, c("RI", "Al")]; head(test)
 train_class <- fgl[tr_idx, "type"]; train_class
 test_class <- fgl[-tr_idx, "type"]; test_class
 
 #knn 모델 생성: 훈련집합, 타겟 클래스, 테스트 집합, 이웃 수
+##  knn (train, test, cl, k, l, prob, use.all)
+##      train: 훈련 집합 배열
+##      test: 테스트 셋의 데이터 프레임 or 배열
+##      cl: 타겟 클래스
+##      k: 이웃의 수
 nn1 <- knn(train=train, cl=train_class, test=test, k=1)
 nn5 <- knn(train=train, cl=train_class, test=test, k=5)
 
@@ -81,14 +86,20 @@ res5 <- sum(test_class == nn5)/14; res5
 
 # 2. iris 데이터 셋
 # 훈련 집합(100개), 테스트 집합(50개)
+##  knn (train, test, cl, k, l, prob, use.all)
+##      train: 훈련 집합 배열
+##      test: 테스트 셋의 데이터 프레임 or 배열
+##      cl: 타겟 클래스
+##      k: 이웃의 수
 n <- nrow(iris); n
 tr_idx <- sample(1:n, 100); tr_idx
 
 #훈련집합, 타겟 클래스, 테스트 집합 생성
-train <- iris[tr_idx, -5]; train
-test <- iris[-tr_idx, -5]; test
-train_class <- iris[tr_idx, "Species"];
-test_class <- iris[-tr_idx, "Species"];
+train <- iris[tr_idx, -5]; train ## 훈련 집합 생성
+## 테스트 셋: 훈련 집합을 제외한 데이터 프레임 or 배열  자연스럽게 50개가 됨
+test <- iris[-tr_idx, -5]; test 
+train_class <- iris[tr_idx, "Species"]; ## 훈련 집합의 타겟 클래스 생성
+test_class <- iris[-tr_idx, "Species"]; ## 테스트 셋의 타겟 클래스 생성
 
 #knn 모델 생성
 nn5 <- knn(train=train, cl=train_class, test=test, k = 5)
@@ -104,7 +115,7 @@ sum(test_class == nn5)/50
 ##################################################################
 
 wbcd <- read.csv("15_Remind/data/wisc_bc_data.csv", stringsAsFactors = F)
-
+#read.csv("data/wisc_bc_data.csv", stringsAsFactors = F)
 str(wbcd)
 wbcd$diagnosis <- factor(wbcd$diagnosis)
 wbcd <- wbcd[-1] #첫번째 변수 id는 제거
@@ -123,6 +134,9 @@ normalize <- function(x){
 
 # 첫 열 진단 결과만 제외하고 lapply 함수를 이용해 정규화 수행
 # 데이터 프레임으로 변경
+##  lapply
+##     lapply(iris_num, mean, na.rm = T): iris_num의 열 단위 평균이 list 형태로 출력됨 
+
 wbcd_n <- as.data.frame(lapply(wbcd[2:31], normalize))
 summary(wbcd_n[2:5])
 
@@ -149,5 +163,46 @@ sum(test_class == nn5)/100
 score_board <- c(1:300)
 
 for(i in 1:300){
-    
+    nn <- knn(train=train, cl=train_class, test=test, k=1)
+    res <- sum(test_class == nn) / 100
+    score_board[i] <- res
 }
+
+df <- data.frame(index = c(1:300), score = score_board)
+
+subset(df, score == max(score))
+
+#########################
+## Naive Bayes Classifier
+#########################
+
+#패키지 설치 및 로드
+library(e1071)
+
+#데이터 셋 : UCI 대학에서 제공하는 독버섯 관련 데이터
+mushroom <- read.csv("15_Remind/data/mushrooms.csv")
+##read.csv("data/mushroom.csv")
+str(mushroom)
+?naiveBayes
+#데이터 나누기
+# 훈련 집합(6,500개), 테스트 집합(1624개 : 8124-6500개)
+n <- nrow(mushroom); n
+tr_idx <- sample(1:n, 6500);
+
+#훈련집합, 타겟 클래스, 테스트 집합 생성
+train <- mushroom[tr_idx, -1];
+test <- mushroom[-tr_idx, -1];
+train_class <- mushroom[tr_idx, "type"];
+test_class <- mushroom[-tr_idx, "type"];
+
+#모델/ 분류기 생성
+m_cl <- naiveBayes(train, train_class);
+
+#test 데이터 예측
+m_pred <- predict(m_cl, test)
+
+#예측 결과 확인
+table(test_class, m_pred)
+
+#성능 평가
+sum(test_class == m_pred)/(n-6500)
